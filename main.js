@@ -1,7 +1,16 @@
 let newsList = [];
 const menus = document.querySelectorAll(".menus button");
+const menuList = document.querySelectorAll(".side-menu-list button");
 const searchInput = document.getElementById("search-input");
+
+
+
 menus.forEach(menu => menu.addEventListener("click", (event) => getNewsByCategory(event)));
+
+menuList.forEach(item => {
+    item.addEventListener("click", (event)=>getNewsByCategory(event));
+    // item.addEventListener("touchstart", (event)=>getNewsByCategory(event)); // 모바일 대응
+});
 
 let url = new URL(`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=kr`);
 let totalResults = 0;
@@ -13,8 +22,11 @@ searchInput.addEventListener("keypress", (event)=> {
     if(event.key ==="Enter") {
         event.preventDefault();
         getNewsByKeyword();
+        searchInput.value = "";
     }
 })
+
+
 
 const getNews = async () => {
     try {
@@ -82,6 +94,7 @@ const getNewsByKeyword = async () => {
     url = new URL(`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=kr&q=${keyword}`);
 
     getNews(); 
+    searchInput.value = "";
 };
 
 
@@ -166,6 +179,7 @@ const moveToPage = (pageNum) => {
 const openSearchBox = () => {
     let inputArea = document.getElementById("input-area");
     inputArea.style.display = inputArea.style.display === "inline" ? "none" : "inline";
+    searchInput.focus();
 };
 
 
